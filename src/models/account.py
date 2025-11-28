@@ -1,5 +1,4 @@
 from datetime import datetime
-from enum import Enum
 
 from fastapi import HTTPException, status
 from sqlalchemy import Enum as SQLEnum
@@ -7,12 +6,9 @@ from sqlalchemy import func
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import Mapped, Session, mapped_column
 
+from ..schemas.auth import AccountSignUpSchema
+from ..utils.enums import AccountRole
 from .base import Base
-
-
-class AccountRole(str, Enum):
-    COMPANY = 'company'
-    STUDENT = 'student'
 
 
 class Account(Base):
@@ -31,13 +27,15 @@ class Account(Base):
 
     @classmethod
     def _create_account(
-        cls: type['Account'], account_data: dict, session: Session
+        cls: type['Account'],
+        account_data: AccountSignUpSchema,
+        session: Session,
     ) -> int:
         new_account = cls(
-            username=account_data['username'],
-            email=account_data['email'],
-            password=account_data['password'],
-            role=account_data['role'],
+            username=account_data.username,
+            email=account_data.email,
+            password=account_data.password,
+            role=account_data.role,
         )
 
         try:

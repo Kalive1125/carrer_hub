@@ -3,6 +3,7 @@ from sqlalchemy import ForeignKey, delete
 from sqlalchemy.orm import Mapped, Session, mapped_column
 
 from ..models.account import Account
+from ..schemas.auth import AccountSignUpSchema
 from .base import Base
 
 
@@ -15,7 +16,9 @@ class Company(Base):
     name: Mapped[str] = mapped_column(nullable=True, default=None)
 
     @classmethod
-    def create_company(cls, account_data: dict, session: Session):
+    def create_company(
+        cls, account_data: AccountSignUpSchema, session: Session
+    ):
         try:
             account_id = Account._create_account(account_data, session)
 

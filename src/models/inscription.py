@@ -2,7 +2,7 @@ from datetime import datetime
 
 from fastapi import HTTPException, status
 from sqlalchemy import ForeignKey, String, func
-from sqlalchemy.orm import Mapped, mapped_column, Session
+from sqlalchemy.orm import Mapped, Session, mapped_column
 
 from .base import Base
 
@@ -11,7 +11,7 @@ class Inscription(Base):
     __tablename__ = 'inscriptions'
 
     jobopening_id: Mapped[int] = mapped_column(
-        ForeignKey('job_openings.id'), primary_key=True
+        ForeignKey('jobs.id'), primary_key=True
     )
     student_id: Mapped[int] = mapped_column(
         ForeignKey('students.id'), primary_key=True
@@ -22,21 +22,25 @@ class Inscription(Base):
     )
 
     @classmethod
-    def create_inscription(cls, jobopening_id: int, student_id: int,
-                           data_inscription: dict, session: Session
+    def create_inscription(
+        cls,
+        jobopening_id: int,
+        student_id: int,
+        data_inscription: dict,
+        session: Session,
     ):
         inscription = session.get(Inscription, (jobopening_id, student_id))
 
         if inscription:
             raise HTTPException(
                 status_code=status.HTTP_409_CONFLICT,
-                detail='Inscrição ja existe'
+                detail='Inscrição ja existe',
             )
-        
+
         new_inscription = cls(
-            student_id = student_id,
-            jobopening_id = jobopening_id,
-            **data_inscription
+            student_id=student_id,
+            jobopening_id=jobopening_id,
+            **data_inscription,
         )
 
         session.add(new_inscription)

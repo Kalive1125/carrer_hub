@@ -1,9 +1,13 @@
-from sqlalchemy import URL, create_engine
+from sqlalchemy import create_engine
 
-from ..security.enviroment import env_settings
+from ..models.base import Base
+
+# from ..security.enviroment import env_settings
 
 # pra testes
-engine = create_engine('sqlite:///:memory:')
+engine = create_engine('sqlite:///database.db', echo=True)
+
+Base.metadata.create_all(engine)
 
 #    DB_URL = URL.create(
 #        drivername=env_settings['DB_DRIVE'],
@@ -12,6 +16,6 @@ engine = create_engine('sqlite:///:memory:')
 #       host=env_settings['DB_HOST'],
 #        port=env_settings['DB_PORT'],
 #        database=env_settings['DB_NAME'],
-#)
+# )
 
 # print(DB_URL)

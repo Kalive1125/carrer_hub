@@ -4,6 +4,7 @@ from fastapi import HTTPException, status
 from sqlalchemy import ForeignKey, String, delete
 from sqlalchemy.orm import Mapped, Session, mapped_column
 
+from ..schemas.auth import AccountSignUpSchema
 from .account import Account
 from .base import Base
 
@@ -23,17 +24,15 @@ class Student(Base):
     birth_date: Mapped[date] = mapped_column(nullable=True, default=None)
 
     @classmethod
-    def create_student(cls, account_data: dict, session: Session):
-        try:
-            new_account_id = Account._create_account(account_data, session)
+    def create_student(
+        cls, account_data: AccountSignUpSchema, session: Session
+    ):
+        new_account_id = Account._create_account(account_data, session)
 
-            new_student = cls(id=new_account_id)
+        new_student = cls(id=new_account_id)
 
-            session.add(new_student)
-            session.commit()
-        except HTTPException as err:
-            session.rollback()
-            raise err
+        session.add(new_student)
+        session.commit()
 
     @classmethod
     def update_student(
