@@ -7,7 +7,7 @@ from ..database.session import getSession
 from ..models.company import Company
 from ..schemas.auth import AccountSignUpSchema
 
-router = APIRouter(prefix='/api/company')
+router = APIRouter(prefix='/api/company', tags=['company'])
 
 
 @router.post('/v1/sign-up', status_code=status.HTTP_201_CREATED)
@@ -17,4 +17,4 @@ def signUpCompany(
 ):
     Company.create_company(account_data, session)
 
-    return {'message': 'Conta estudante criada com sucesse!'}
+    return {'message': 'Conta empresa criada com sucesse!'}

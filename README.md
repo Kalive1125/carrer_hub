@@ -6,9 +6,9 @@ Uma breve descrição sobre o que esse projeto faz e para quem ele é
 
 ## Documentação
 
-[Pré-Requisitos](#Pré-Requisitos)
+[Pré-Requisitos](#pre-requisitos)
 
-[Instalação](#Instalação)
+[Instalação](#instalacao)
 
 
 ## Pré-Requisitos
@@ -44,3 +44,7 @@ para rodar o servidor de desenvolvimento
 ```bash
 task dev
 ```
+
+## Documentação API
+O FastAPI integra o SwaggerUI e documenta a aplicação automaticamente!
+para acessar a documentação execute o servidor e acesse "http://localhost:8000/docs"

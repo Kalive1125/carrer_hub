@@ -7,6 +7,7 @@ from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import Mapped, Session, mapped_column
 
 from ..schemas.auth import AccountSignUpSchema
+from ..security.encryption import passwd_hash
 from ..utils.enums import AccountRole
 from .base import Base
 
@@ -34,7 +35,7 @@ class Account(Base):
         new_account = cls(
             username=account_data.username,
             email=account_data.email,
-            password=account_data.password,
+            password=passwd_hash.hash(account_data.password),
             role=account_data.role,
         )
 
@@ -48,3 +49,15 @@ class Account(Base):
             ) from None
 
         return new_account.id
+
+    @classmethod
+    def getAccountByEmail(cls, email: str, session: Session):
+        getAccount = session.query(cls).filter_by(email=email).first()
+
+        if not getAccount:
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail='Credenciais incorretas!',
+            )
+
+        return getAccount

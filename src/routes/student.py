@@ -7,7 +7,7 @@ from ..database.session import getSession
 from ..models.student import Student
 from ..schemas.auth import AccountSignUpSchema
 
-router = APIRouter(prefix='/api/student')
+router = APIRouter(prefix='/api/student', tags=['student'])
 
 
 @router.post('/v1/sign-up', status_code=status.HTTP_201_CREATED)

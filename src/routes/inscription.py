@@ -1,3 +1,3 @@
 from fastapi import APIRouter
 
-router = APIRouter(prefix='/inscription/v1')
+router = APIRouter(prefix='/api/inscription', tags=['inscription'])

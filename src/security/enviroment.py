@@ -11,8 +11,9 @@ class Enviroment(BaseSettings):
 
     JWT_SECRET_KEY: str
     ALGORITHM: str
+    ACCESS_TOKEN_EXPIRE_MINUTES: int
 
     model_config = SettingsConfigDict(env_file='.env')
 
 
-# env_settings = Enviroment().model_dump()
+env_settings = Enviroment().model_dump()
